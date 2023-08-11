@@ -98,30 +98,27 @@ public class Day3 {
                 case '^':
                     houseId = originalSantasTurn ? "house_[" + Integer.toString(x) + "," + Integer.toString(++y) + "]" :
                                                    "house_[" + Integer.toString(rx) + "," + Integer.toString(++ry) + "]";
-                    hashMap.put(houseId, hashMap.getOrDefault(houseId, 0) + 1);
                     break;
 
                 case 'v':
                     houseId = originalSantasTurn ? "house_[" + Integer.toString(x) + "," + Integer.toString(--y) + "]" :
                                                    "house_[" + Integer.toString(rx) + "," + Integer.toString(--ry) + "]";
                     hashMap.put(houseId, hashMap.getOrDefault(houseId, 0) + 1);
-                    break;
                 
                 case '>':
                     houseId = originalSantasTurn ? "house_[" + Integer.toString(++x) + "," + Integer.toString(y) + "]" :
                                                    "house_[" + Integer.toString(++rx) + "," + Integer.toString(ry) + "]";
-                    hashMap.put(houseId, hashMap.getOrDefault(houseId, 0) + 1);
                     break;
                 
                 case '<':
                     houseId = originalSantasTurn ? "house_[" + Integer.toString(--x) + "," + Integer.toString(y) + "]" :
                                                    "house_[" + Integer.toString(--rx) + "," + Integer.toString(ry) + "]";
-                    hashMap.put(houseId, hashMap.getOrDefault(houseId, 0) + 1);
                     break;
 
                 default:
                     break;
             }
+            hashMap.put(houseId, hashMap.getOrDefault(houseId, 0) + 1);
             originalSantasTurn = (originalSantasTurn == true) ? false : true;
         }
 
