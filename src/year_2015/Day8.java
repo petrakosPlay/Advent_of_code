@@ -20,13 +20,11 @@ public class Day8 {
         }
 
         int count = 0;
-        //int count2 = 0;
         for(String s : stringLiterals) {
             count+= codeRepresentationLengthOf(s) - inMemoryLengthOf(s);
             //see how to remove leading and trailing " from string using regex s.substring(1, s.length()-2) 
             //System.out.println("The code representation length of '" + s + "' is: " + codeRepresentationLengthOf(s));
-            System.out.println("The in-memory representation length of " + s + " is: " + inMemoryLengthOf(s));
-            
+            //System.out.println("The in-memory representation length of " + s + " is: " + inMemoryLengthOf(s));    
         }
         System.out.println(count);
     }
@@ -42,17 +40,10 @@ public class Day8 {
 
         int count = 0;
         for(int i = 1; i < s.length() - 1 ; ++i) {
-            if (s.charAt(i) != '\\')     count++;
-            else {
-                count++;
-                ++i;
-                switch(s.charAt(i)) {
-                    //case '\\':
-                    //case '"':
-                    //    i++;
-                    case 'x':
-                        i+=2;
-                }
+            count++;
+            if (s.charAt(i) == '\\' && i < s.length() - 2) {
+                if(s.charAt(i + 1) == 'x')      i+=3;
+                else                            i+=1;
             }
         }
         return count;
