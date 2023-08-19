@@ -6,9 +6,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
-public class Day_7 
+public class Day7 
 {
     private static List<String> instructions;
     private static Map <String, Integer> wires;
