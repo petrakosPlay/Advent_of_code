@@ -10,35 +10,84 @@ import java.util.stream.Stream;
 
 public class Day_7 
 {
-    
+    private static List<String> instructions;
+    private static Map <String, Integer> wires;
 
     public static void main(String[] args)
     {
-    
 
-        List<String> lines;
+        wires = new HashMap<>(50);
+
         try {
-            lines = Files.readAllLines(Paths.get(".\\data\\year_2015\\day_7\\input.txt"));
+            instructions = Files.readAllLines(Paths.get(".\\data\\year_2015\\day_7\\input.txt"));
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
 
-
-        //Stream <String> stream = lines.stream();
-        //System.out.println(stream);
-        String target = lines.stream().filter( s -> s.substring(s.indexOf('>') + 2).equals("lx")).findFirst().get();
-        System.out.println(target);
-
-
+        Integer wireSignal = calculateWireSignal("a");
+        System.out.println("The signal on wire \"a\" is: " +  (wireSignal == -1 ? "Not found" : Integer.toString(wireSignal)) );
         
+    }
 
-/*
-        Map <String, Integer> map = new HashMap<>(50);
-        String[] ops = new String[5];
-        int operand1, operand2;
-        for (String line : lines) {
-            System.out.println(line);
+    private static Integer calculateWireSignal (String targetWire)
+    { 
+        try {
+            return Integer.parseInt(targetWire);
+        } catch (NumberFormatException e) {
+            if (wires.containsKey(targetWire) == true)
+                return wires.get(targetWire);
+        }
+  
+        int i; String instruction = null;
+        for (i=0; i<instructions.size(); ++i) {
+            if (instructions.get(i).substring(instructions.get(i).indexOf('>') + 2).equals(targetWire) == true) {
+                instruction = instructions.get(i);
+                break;
+            }   
+        }
+        if (instruction == null)  return -1;
+
+
+        String[] operands = instruction.split(" ");
+
+        if(operands[1].equals("->")) {
+            wires.put(targetWire, calculateWireSignal(operands[0]));            
+        }
+        else if(operands[0].equals("NOT")) {
+            wires.put(targetWire, ~calculateWireSignal(operands[1]));
+        }
+        else if (operands[1].equals("AND")) {
+            wires.put(targetWire, calculateWireSignal(operands[0]) & calculateWireSignal(operands[2]));
+        }
+        else if (operands[1].equals("OR")) {
+            wires.put(targetWire, calculateWireSignal(operands[0]) | calculateWireSignal(operands[2]));
+        }
+        else if (operands[1].equals("LSHIFT")) {
+            wires.put(targetWire, calculateWireSignal(operands[0]) << calculateWireSignal(operands[2]));
+        }
+        else if (operands[1].equals("RSHIFT")) {
+            wires.put(targetWire, calculateWireSignal(operands[0]) >> calculateWireSignal(operands[2]));
+        }
+        return wires.get(targetWire);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*     
             ops = line.split(" ");
         
             if(ops[0].equals("NOT"))   map.put(ops[3], ~map.getOrDefault(ops[1],0));
@@ -111,11 +160,24 @@ public class Day_7
         }
         System.out.println(map.get("a"));
     */
-    }
-}
 
 
 
 
 
+//Stream <String> stream = lines.stream();
+        //System.out.println(stream);
+        //String target = lines.stream().filter( s -> s.substring(s.indexOf('>') + 2).equals("lx")).findFirst().get();
+        //System.out.println(target);
 
+
+        //String[] ops = new String[5];
+        //int operand1, operand2;
+
+        /*for (String instruction : instructions) {
+            System.out.println(instruction);
+            String outputWire = instruction.substring(instruction.indexOf('>') + 2);
+            System.out.println(outputWire);
+           // if (map.containsKey(outputWire) == false)
+          //      calculateSignal(instruction, outputWire);
+        }*/
